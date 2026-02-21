@@ -1,6 +1,6 @@
 {
   "name": "スタディサンプリ",
-  "short_name": "サンプリ",
+  "short_name": "スタディサンプリ",
   "description": "正解音で勉強のリズムをつくろう",
   "start_url": "./",
   "display": "standalone",
