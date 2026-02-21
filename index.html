@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>スタディサンプリ</title>
   <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#11409F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="サンプリ">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#F4F7FC] flex flex-col">
@@ -174,6 +181,10 @@
     const application = Application.start();
     application.register("count", CountController);
     application.register("sound", SoundController);
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
   </script>
 </body>
 </html>
