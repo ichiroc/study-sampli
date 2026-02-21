@@ -4,6 +4,7 @@
   "description": "正解音で勉強のリズムをつくろう",
   "start_url": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#F4F7FC",
   "theme_color": "#11409F",
   "lang": "ja",
