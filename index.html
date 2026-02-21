@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スタディサンプリ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#F4F7FC] flex justify-center">
+  <div
+    class="w-full max-w-[402px] min-h-screen flex flex-col"
+    data-controller="count sound"
+  >
+    <!-- ① ヘッダー -->
+    <header class="h-[74px] bg-[#11409F] flex items-center justify-between px-4">
+      <span class="text-white text-2xl font-bold">スタディサンプリ</span>
+      <span class="text-[#CFE1FF] text-xs font-semibold">学習サポート</span>
+    </header>
+
+    <!-- ② ヒーローセクション -->
+    <section class="bg-white px-4 pt-[18px] pb-[18px] flex flex-col gap-3">
+      <h1 class="text-[#12377E] text-[42px] font-bold leading-[1.12]">正解音で、<br>勉強のリズムを<br>つくろう</h1>
+      <p class="text-[#496182] text-lg leading-relaxed">問題が解けたらボタンを押すだけ…</p>
+
+      <!-- フォンモック -->
+      <div class="bg-[#0E3388] rounded-2xl h-[170px] flex items-center justify-center">
+        <!-- 白カード -->
+        <div class="bg-white w-[300px] rounded-xl p-[10px] flex flex-col gap-2">
+          <!-- 上バー: 今日の正解 + +N badge -->
+          <div class="flex items-center justify-between h-[28px]">
+            <span class="text-[#12377E] text-sm font-semibold">今日の正解</span>
+            <span
+              class="bg-[#11409F] text-white text-xs font-bold px-2 rounded-full h-[28px] flex items-center"
+              data-count-target="topBadge"
+            >+0</span>
+          </div>
+          <!-- 行1: 正解カウント + 数値 -->
+          <div class="bg-[#DCEEFF] rounded-lg h-[38px] flex items-center justify-between px-3">
+            <span class="text-[#12377E] text-sm font-medium">正解カウント</span>
+            <span
+              class="text-[#D62FC6] text-xl font-bold"
+              data-count-target="count"
+            >0</span>
+          </div>
+          <!-- 行2: 連続N日 / 目標まであとN問 + やる気UP badge -->
+          <div class="bg-[#F7FAFF] border border-[#D7DEEA] rounded-lg h-[38px] flex items-center justify-between px-3">
+            <div class="flex items-center gap-2">
+              <span
+                class="text-[#12377E] text-sm font-medium"
+                data-count-target="streakDays"
+              >連続 0日</span>
+              <span
+                class="text-[#496182] text-xs"
+                data-count-target="streakSub"
+              >目標まであと20問</span>
+            </div>
+            <span class="text-[#11409F] text-xs font-semibold">やる気UP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ ツールセクション -->
+    <section class="bg-[#EAF4FF] flex-1 flex items-center justify-center" style="min-height: 360px;">
+      <button
+        data-action="click->sound#play click->count#push"
+        class="w-[236px] h-[236px] rounded-full bg-[#18A8E4] text-white text-[58px] font-bold
+               active:scale-95 transition-transform select-none shadow-lg"
+      >
+        正解！
+      </button>
+    </section>
+  </div>
+
+  <script type="module">
+    import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js";
+
+    const STORAGE_KEY = "studySampli";
+    const DAILY_GOAL = 20;
+
+    function getToday() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function readStorage() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function writeStorage(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function calcStreak(data, today) {
+      const todayCount = data[today] || 0;
+      let streak = 0;
+
+      // 今日が0件なら昨日から遡る
+      const startOffset = todayCount > 0 ? 0 : 1;
+
+      for (let i = startOffset; i < 365; i++) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().slice(0, 10);
+        if ((data[key] || 0) > 0) {
+          streak++;
+        } else {
+          break;
+        }
+      }
+
+      return streak;
+    }
+
+    class CountController extends Controller {
+      static targets = ["count", "topBadge", "streakDays", "streakSub"];
+
+      connect() {
+        this.render();
+      }
+
+      push() {
+        const data = readStorage();
+        const today = getToday();
+        data[today] = (data[today] || 0) + 1;
+        writeStorage(data);
+        this.render();
+      }
+
+      render() {
+        const data = readStorage();
+        const today = getToday();
+        const todayCount = data[today] || 0;
+        const streak = calcStreak(data, today);
+        const remaining = Math.max(0, DAILY_GOAL - todayCount);
+
+        this.countTarget.textContent = todayCount;
+        this.topBadgeTarget.textContent = `+${todayCount}`;
+        this.streakDaysTarget.textContent = `連続 ${streak}日`;
+        this.streakSubTarget.textContent =
+          remaining === 0 ? "今日の目標達成！" : `目標まであと${remaining}問`;
+      }
+    }
+
+    class SoundController extends Controller {
+      play() {
+        const ctx = new AudioContext();
+        const notes = [523, 784]; // C5, G5
+        let startTime = ctx.currentTime;
+
+        notes.forEach(freq => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.frequency.value = freq;
+          osc.type = "sine";
+          gain.gain.setValueAtTime(0.3, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.1);
+          osc.start(startTime);
+          osc.stop(startTime + 0.1);
+          startTime += 0.12;
+        });
+      }
+    }
+
+    const application = Application.start();
+    application.register("count", CountController);
+    application.register("sound", SoundController);
+  </script>
+</body>
+</html>
