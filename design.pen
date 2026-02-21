@@ -1,0 +1,316 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "eJ9NN",
+      "x": 2368,
+      "y": -53,
+      "name": "Study Sunpli Mobile",
+      "clip": true,
+      "width": 402,
+      "fill": "#F4F7FC",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "seUWv",
+          "name": "head",
+          "width": "fill_container",
+          "height": 74,
+          "fill": "#11409F",
+          "padding": [
+            0,
+            16
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "SVP7d",
+              "name": "brand",
+              "fill": "#FFFFFF",
+              "content": "スタディサンプリ",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "Ad6UQ",
+              "name": "sub",
+              "fill": "#CFE1FF",
+              "content": "学習サポート",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "d2Udt",
+          "name": "hero",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            18,
+            16
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "tVajd",
+              "name": "heroTitle",
+              "fill": "#12377E",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "正解音で、\n勉強のリズムを\nつくろう",
+              "lineHeight": 1.12,
+              "fontFamily": "Inter",
+              "fontSize": 42,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "rTxNw",
+              "name": "heroLead",
+              "fill": "#496182",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "問題が解けたらボタンを押すだけ。\n気持ちよく次の1問へ進めるツールです。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "uH87z",
+              "name": "phoneMock",
+              "width": "fill_container",
+              "height": 170,
+              "fill": "#0E3388",
+              "cornerRadius": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "WJgJz",
+                  "name": "mockInner",
+                  "width": 300,
+                  "height": 138,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VVDaR",
+                      "name": "mockTop",
+                      "width": "fill_container",
+                      "height": 28,
+                      "fill": "#11409F",
+                      "cornerRadius": 8,
+                      "padding": [
+                        0,
+                        10
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vH52T",
+                          "name": "mockTopText",
+                          "fill": "#FFFFFF",
+                          "content": "今日の正解",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "mrvMA",
+                          "name": "mockTopBadge",
+                          "fill": "#8ED8FF",
+                          "content": "+12",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ffS1q",
+                      "name": "mockRow1",
+                      "width": "fill_container",
+                      "height": 38,
+                      "fill": "#DCEEFF",
+                      "cornerRadius": 8,
+                      "padding": [
+                        0,
+                        10
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "0X9Ws",
+                          "name": "row1Label",
+                          "fill": "#1B5EA8",
+                          "content": "正解カウント",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "QoxzO",
+                          "name": "row1Value",
+                          "fill": "#D62FC6",
+                          "content": "12",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WBWPu",
+                      "name": "mockRow2",
+                      "width": "fill_container",
+                      "height": 38,
+                      "fill": "#F7FAFF",
+                      "cornerRadius": 8,
+                      "stroke": {
+                        "thickness": 1,
+                        "fill": "#D7DEEA"
+                      },
+                      "padding": [
+                        0,
+                        10
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "twJLJ",
+                          "name": "row2Left",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kt5xq",
+                              "name": "row2Main",
+                              "fill": "#2A446C",
+                              "content": "連続 4日",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "etdr8",
+                              "name": "row2Sub",
+                              "fill": "#5B6C85",
+                              "content": "目標まであと3問",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "L1J3f",
+                          "name": "row2Badge",
+                          "fill": "#11409F",
+                          "cornerRadius": 999,
+                          "padding": [
+                            4,
+                            8
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uug9J",
+                              "name": "row2BadgeText",
+                              "fill": "#FFFFFF",
+                              "content": "やる気UP",
+                              "fontFamily": "Inter",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "5OeWv",
+          "name": "tool",
+          "width": "fill_container",
+          "height": 360,
+          "fill": "#EAF4FF",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            20,
+            16
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "F89Aw",
+              "name": "cta",
+              "width": 236,
+              "height": 236,
+              "fill": "#18A8E4",
+              "cornerRadius": 999,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "IZMXF",
+                  "x": 28,
+                  "y": 74,
+                  "name": "ctaText",
+                  "fill": "#FFFFFF",
+                  "textGrowth": "fixed-width-height",
+                  "width": 208,
+                  "height": 88,
+                  "content": "正解！",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 58,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
