@@ -185,6 +185,26 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js');
     }
-  </script>
+
+    // Screen Wake Lock: 画面が自動ロックされないようにする
+    let wakeLock = null;
+
+    async function requestWakeLock() {
+      if (!('wakeLock' in navigator)) return;
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+      } catch {
+        // 取得失敗は無視（バッテリー低下時など）
+      }
+    }
+
+    requestWakeLock();
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        requestWakeLock();
+      }
+    });
+</script>
 </body>
 </html>
