@@ -38,27 +38,28 @@
       <p class="text-[#496182] text-lg leading-relaxed">問題が解けたらボタンを押すだけ…</p>
 
       <!-- フォンモック -->
-      <div class="bg-[#0E3388] rounded-2xl h-[170px] flex items-center justify-center">
+      <div class="bg-[#0E3388] rounded-2xl h-[210px] flex items-center justify-center">
 
         <!-- 白カード -->
         <div class="bg-white w-[300px] rounded-xl p-[10px] flex flex-col gap-2">
-          <!-- 上バー: 今日の正解 + +N badge -->
-          <div class="flex items-center justify-between h-[28px]">
+          <!-- 上バー: 今日の正解 -->
+          <div class="flex items-center h-[28px]">
             <span class="text-[#12377E] text-sm font-semibold">今日の正解</span>
-            <span
-              class="bg-[#11409F] text-white text-xs font-bold px-2 rounded-full h-[28px] flex items-center"
-              data-count-target="topBadge"
-            >+0</span>
           </div>
-          <!-- 行1: 正解カウント + 数値 -->
+          <!-- 行1: 正解カウント + 前回 + 数値 -->
           <div class="bg-[#DCEEFF] rounded-lg h-[38px] flex items-center justify-between px-3">
-            <span class="text-[#12377E] text-sm font-medium">正解カウント</span>
-            <span
-              class="text-[#D62FC6] text-xl font-bold"
-              data-count-target="count"
-            >0</span>
+            <span>
+              <span class="text-[#12377E] text-sm font-medium">正解カウント</span>
+              <span class="text-[#496182] text-xs">前回 <span data-count-target="prevCount">0</span></span>
+            </span>
+            <span class="flex items-center items-end gap-2">
+              <span
+                class="text-[#D62FC6] text-xl font-bold"
+                data-count-target="count"
+              >0</span>
+            </span>
           </div>
-          <!-- 行2: 連続N日 / 目標まであとN問 + やる気UP badge -->
+          <!-- 行3: 連続N日 / 目標まであとN問 + やる気UP badge -->
           <div class="bg-[#F7FAFF] border border-[#D7DEEA] rounded-lg h-[38px] flex items-center justify-between px-3">
             <div class="flex items-center gap-2">
               <span
@@ -175,7 +176,7 @@
     }
 
     class CountController extends Controller {
-      static targets = ["count", "topBadge", "streakDays", "streakSub"];
+      static targets = ["count", "prevCount", "streakDays", "streakSub"];
 
       connect() {
         this.render();
@@ -193,11 +194,13 @@
         const data = readStorage();
         const today = getToday();
         const todayCount = data[today] || 0;
+        const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
+        const prevCount = prevKey ? data[prevKey] : 0;
         const streak = calcStreak(data, today);
         const remaining = Math.max(0, DAILY_GOAL - todayCount);
 
         this.countTarget.textContent = todayCount;
-        this.topBadgeTarget.textContent = `+${todayCount}`;
+        this.prevCountTarget.textContent = prevCount;
         this.streakDaysTarget.textContent = `連続 ${streak}日`;
         this.streakSubTarget.textContent =
           remaining === 0 ? "今日の目標達成！" : `目標まであと${remaining}問`;
