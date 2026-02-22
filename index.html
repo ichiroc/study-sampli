@@ -29,7 +29,7 @@
     <div
       class="w-full max-w-[390px] flex flex-col"
       data-controller="count sound wakelock"
-      data-action="keydown@window->sound#play keydown@window->count#push"
+      data-action="keydown.a@window->sound#play keydown.a@window->count#push keydown.b@window->sound#play keydown.b@window->count#push"
     >
 
       <section class="bg-white px-4 pt-[18px] pb-[18px] flex flex-col gap-3">
@@ -129,6 +129,15 @@
           再開する
         </button>
       </div>
+      <input
+        type="text"
+        inputmode="none"
+        readonly
+        aria-hidden="true"
+        tabindex="-1"
+        data-count-target="keyCapture"
+        style="position:fixed;opacity:0;width:1px;height:1px;left:-9999px;top:0"
+      >
     </div>
   </div>
 
@@ -136,7 +145,7 @@
    import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js";
 
    class CountController extends Controller {
-     static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "goalBadge", "button"];
+     static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "goalBadge", "button", "keyCapture"];
      static STORAGE_KEY = "studySampli";
      static GOAL_KEY = "studySampli_goal";
      static DEFAULT_GOAL = 20;
@@ -188,6 +197,16 @@
 
      connect() {
        this.render();
+       this._bindKeyCapture = () => {
+         if (!this.streakSubTarget.querySelector('input')) {
+           this.keyCaptureTarget.focus();
+         }
+       };
+       document.addEventListener('touchend', this._bindKeyCapture, { passive: true });
+     }
+
+     disconnect() {
+       document.removeEventListener('touchend', this._bindKeyCapture);
      }
 
      push() {
@@ -239,6 +258,7 @@
            this.#writeGoal(val);
          }
          this.render();
+         this.keyCaptureTarget.focus();
        };
 
        input.addEventListener('blur', commit, { once: true });
