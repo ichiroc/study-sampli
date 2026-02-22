@@ -65,8 +65,9 @@
                   data-count-target="streakDays"
                 >連続 0日</span>
                 <span
-                  class="text-[#496182] text-xs"
+                  class="text-[#496182] text-xs cursor-pointer underline"
                   data-count-target="streakSub"
+                  data-action="click->count#editGoal"
                 >目標まであと20問</span>
               </div>
               <span class="text-[#11409F] text-xs font-semibold">やる気UP</span>
@@ -134,7 +135,17 @@
    class CountController extends Controller {
      static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "button"];
      static STORAGE_KEY = "studySampli";
-     static DAILY_GOAL = 20;
+     static GOAL_KEY = "studySampli_goal";
+     static DEFAULT_GOAL = 20;
+
+     #readGoal() {
+       const val = parseInt(localStorage.getItem(CountController.GOAL_KEY), 10);
+       return isNaN(val) || val < 1 ? CountController.DEFAULT_GOAL : val;
+     }
+
+     #writeGoal(val) {
+       localStorage.setItem(CountController.GOAL_KEY, String(val));
+     }
 
      #getToday() {
        return new Date().toISOString().slice(0, 10);
@@ -189,6 +200,48 @@
        this.render();
      }
 
+     editGoal() {
+       const span = this.streakSubTarget;
+       if (span.querySelector('input')) return;
+
+       const goal = this.#readGoal();
+       span.textContent = '';
+
+       const label = document.createElement('span');
+       label.textContent = '目標 ';
+
+       const input = document.createElement('input');
+       input.type = 'number';
+       input.inputMode = 'numeric';
+       input.value = goal;
+       input.min = 1;
+       input.max = 999;
+       input.className = 'w-12 text-xs text-center border-b border-[#496182] bg-transparent outline-none text-[#496182]';
+
+       const unit = document.createElement('span');
+       unit.textContent = ' 問';
+
+       span.appendChild(label);
+       span.appendChild(input);
+       span.appendChild(unit);
+       input.focus();
+       input.select();
+
+       const commit = () => {
+         const val = parseInt(input.value, 10);
+         if (!isNaN(val) && val >= 1 && val <= 999) {
+           this.#writeGoal(val);
+         }
+         this.render();
+       };
+
+       input.addEventListener('blur', commit, { once: true });
+       input.addEventListener('keydown', (e) => {
+         if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+         if (e.key === 'Escape') { input.removeEventListener('blur', commit); this.render(); }
+       });
+     }
+
      render() {
        const data = this.#readStorage();
        const today = this.#getToday();
@@ -196,7 +249,8 @@
        const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
        const prevCount = prevKey ? data[prevKey] : 0;
        const streak = this.#calcStreak(data, today);
-       const remaining = Math.max(0, CountController.DAILY_GOAL - todayCount);
+       const goal = this.#readGoal();
+       const remaining = Math.max(0, goal - todayCount);
 
        this.countTarget.textContent = todayCount;
        this.prevCountTarget.textContent = prevCount;
