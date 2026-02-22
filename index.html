@@ -29,7 +29,7 @@
   <div class="flex-1 flex justify-center">
   <div
     class="w-full max-w-[390px] flex flex-col"
-    data-controller="count sound"
+    data-controller="count sound wakelock"
     data-action="keydown.enter@window->sound#play keydown.enter@window->count#push"
   >
 
@@ -86,6 +86,46 @@
         正解！
       </button>
     </section>
+    <!-- Wake Lock トグル -->
+    <div class="bg-white border-t border-[#E5EBF5] px-6 py-3 flex flex-col gap-1">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-[#496182]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+          </svg>
+          <span class="text-sm font-medium">スリープ防止</span>
+        </div>
+        <button
+          data-action="click->wakelock#toggle"
+          data-wakelock-target="toggle"
+          role="switch"
+          aria-checked="false"
+          class="relative inline-flex h-[28px] w-[52px] flex-shrink-0 items-center rounded-full bg-gray-300 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#18A8E4]"
+        >
+          <span
+            data-wakelock-target="knob"
+            class="inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-200 translate-x-1"
+          ></span>
+        </button>
+      </div>
+      <p data-wakelock-target="errorMsg" class="hidden text-xs text-amber-600 leading-snug"></p>
+    </div>
+
+    <!-- Wake Lock 再開バナー（失効時に表示） -->
+    <div
+      data-wakelock-target="banner"
+      class="hidden fixed inset-x-0 bottom-0 bg-amber-500 text-white px-4 flex items-center justify-between shadow-lg z-50"
+      style="padding-top: 12px; padding-bottom: max(12px, env(safe-area-inset-bottom));"
+    >
+      <span class="text-sm font-medium">スリープ防止が解除されました</span>
+      <button
+        data-action="click->wakelock#resume"
+        class="bg-white text-amber-600 text-xs font-bold px-3 py-1.5 rounded-full ml-3 whitespace-nowrap flex-shrink-0"
+      >
+        再開する
+      </button>
+    </div>
+
     <div class="flex justify-center color text-gray-500 text-sm">
       <div>これは個人が作ったジョークアプリです</div>
     </div>
@@ -177,32 +217,114 @@
     }
 
     const application = Application.start();
+    class WakeLockController extends Controller {
+      static targets = ["toggle", "knob", "banner", "errorMsg"];
+
+      connect() {
+        this.wakeLock = null;
+        this.enabled = false;
+        this._handleVisibilityChange = this._onVisibilityChange.bind(this);
+        document.addEventListener('visibilitychange', this._handleVisibilityChange);
+      }
+
+      disconnect() {
+        document.removeEventListener('visibilitychange', this._handleVisibilityChange);
+        if (this.wakeLock) {
+          this.wakeLock.release().catch(() => {});
+        }
+      }
+
+      async toggle() {
+        if (this.enabled) {
+          await this._release();
+        } else {
+          await this._request();
+        }
+      }
+
+      async resume() {
+        this.bannerTarget.classList.add('hidden');
+        await this._request();
+      }
+
+      async _request() {
+        if (!('wakeLock' in navigator)) {
+          this._showError('お使いの環境ではスリープ防止機能を利用できません');
+          return;
+        }
+        try {
+          this.wakeLock = await navigator.wakeLock.request('screen');
+          this.enabled = true;
+          this.errorMsgTarget.classList.add('hidden');
+          this.wakeLock.addEventListener('release', () => {
+            this.wakeLock = null;
+            if (this.enabled) {
+              this._showBanner();
+            }
+            this._updateUI();
+          });
+          this._updateUI();
+        } catch (err) {
+          this.enabled = false;
+          let msg = 'スリープ防止の取得に失敗しました';
+          if (err.name === 'NotAllowedError') {
+            msg = '低電力モードをOFFにするか、画面の自動ロック設定をご確認ください';
+          }
+          this._showError(msg);
+          this._updateUI();
+        }
+      }
+
+      async _release() {
+        this.enabled = false;
+        if (this.wakeLock) {
+          await this.wakeLock.release().catch(() => {});
+          this.wakeLock = null;
+        }
+        this.bannerTarget.classList.add('hidden');
+        this.errorMsgTarget.classList.add('hidden');
+        this._updateUI();
+      }
+
+      _onVisibilityChange() {
+        if (document.visibilityState === 'visible' && this.enabled && !this.wakeLock) {
+          this._showBanner();
+        }
+      }
+
+      _showBanner() {
+        this.bannerTarget.classList.remove('hidden');
+      }
+
+      _showError(msg) {
+        this.errorMsgTarget.textContent = msg;
+        this.errorMsgTarget.classList.remove('hidden');
+      }
+
+      _updateUI() {
+        const isActive = this.enabled && this.wakeLock !== null;
+        this.toggleTarget.setAttribute('aria-checked', String(isActive));
+        if (isActive) {
+          this.toggleTarget.classList.remove('bg-gray-300');
+          this.toggleTarget.classList.add('bg-[#18A8E4]');
+          this.knobTarget.classList.remove('translate-x-1');
+          this.knobTarget.classList.add('translate-x-[28px]');
+        } else {
+          this.toggleTarget.classList.remove('bg-[#18A8E4]');
+          this.toggleTarget.classList.add('bg-gray-300');
+          this.knobTarget.classList.remove('translate-x-[28px]');
+          this.knobTarget.classList.add('translate-x-1');
+        }
+      }
+    }
+
     application.register("count", CountController);
     application.register("sound", SoundController);
+    application.register("wakelock", WakeLockController);
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js');
     }
-
-    // Screen Wake Lock: 画面が自動ロックされないようにする
-    let wakeLock = null;
-
-    async function requestWakeLock() {
-      if (!('wakeLock' in navigator)) return;
-      try {
-        wakeLock = await navigator.wakeLock.request('screen');
-      } catch {
-        // 取得失敗は無視（バッテリー低下時など）
-      }
-    }
-
-    requestWakeLock();
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        requestWakeLock();
-      }
-    });
 </script>
 </body>
 </html>
