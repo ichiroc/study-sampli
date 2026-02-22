@@ -89,6 +89,15 @@
     <div class="flex justify-center color text-gray-500 text-sm">
       <div>これは個人が作ったジョークアプリです</div>
     </div>
+    <!-- Wake Lock デバッグパネル -->
+    <div id="wakelock-debug" class="mx-4 my-2 p-3 bg-gray-100 rounded-lg text-xs text-gray-700 font-mono">
+      <div class="font-bold text-gray-800 mb-1">Wake Lock デバッグ</div>
+      <div>サポート: <span id="wl-supported">確認中...</span></div>
+      <div>状態: <span id="wl-state">-</span></div>
+      <div>エラー: <span id="wl-error">-</span></div>
+      <div>ログ:</div>
+      <ul id="wl-log" class="mt-1 space-y-0.5 max-h-32 overflow-y-auto"></ul>
+    </div>
   </div>
   </div>
 
@@ -187,18 +196,64 @@
     // Screen Wake Lock: 画面が自動ロックされないようにする
     let wakeLock = null;
 
+    const wlSupported = document.getElementById('wl-supported');
+    const wlState    = document.getElementById('wl-state');
+    const wlError    = document.getElementById('wl-error');
+    const wlLog      = document.getElementById('wl-log');
+
+    function wlAddLog(msg) {
+      const time = new Date().toLocaleTimeString('ja-JP');
+      const li = document.createElement('li');
+      li.textContent = `[${time}] ${msg}`;
+      wlLog.prepend(li);
+    }
+
+    function wlUpdateState() {
+      if (wakeLock) {
+        wlState.textContent = `取得済み (released=${wakeLock.released})`;
+        wlState.style.color = wakeLock.released ? 'orange' : 'green';
+      } else {
+        wlState.textContent = 'なし';
+        wlState.style.color = 'gray';
+      }
+    }
+
+    if ('wakeLock' in navigator) {
+      wlSupported.textContent = 'あり';
+      wlSupported.style.color = 'green';
+    } else {
+      wlSupported.textContent = 'なし (API非対応)';
+      wlSupported.style.color = 'red';
+    }
+
     async function requestWakeLock() {
-      if (!('wakeLock' in navigator)) return;
+      if (!('wakeLock' in navigator)) {
+        wlAddLog('wakeLock API 非対応');
+        return;
+      }
       try {
+        wlAddLog('取得リクエスト中...');
         wakeLock = await navigator.wakeLock.request('screen');
-      } catch {
-        // 取得失敗は無視（バッテリー低下時など）
+        wlAddLog('取得成功');
+        wlError.textContent = '-';
+        wlUpdateState();
+
+        wakeLock.addEventListener('release', () => {
+          wlAddLog('解除されました');
+          wlUpdateState();
+        });
+      } catch (err) {
+        wlAddLog(`取得失敗: ${err.name}: ${err.message}`);
+        wlError.textContent = `${err.name}: ${err.message}`;
+        wlError.style.color = 'red';
+        wlUpdateState();
       }
     }
 
     requestWakeLock();
 
     document.addEventListener('visibilitychange', () => {
+      wlAddLog(`visibilitychange: ${document.visibilityState}`);
       if (document.visibilityState === 'visible') {
         requestWakeLock();
       }
