@@ -14,6 +14,24 @@
   <meta name="apple-mobile-web-app-title" content="サンプリ">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    html, body { overscroll-behavior: none; }
+    body {
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, [role="button"] { touch-action: manipulation; }
+    .btn-main {
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-main:active {
+      transform: scale(0.93);
+      transition-duration: 0.08s;
+      transition-timing-function: ease-out;
+    }
+  </style>
   <script type="module">
     import { Application } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js";
     import { CountController } from "./js/controllers/count_controller.js";
@@ -33,7 +51,7 @@
   </script>
 </head>
 <body class="bg-[#F4F7FC] flex flex-col h-dvh">
-  <header class="bg-[#11409F] flex items-center justify-between px-4" style="height: calc(74px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top);">
+  <header class="bg-[#11409F] flex items-center justify-between px-4" style="height: calc(50px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top);">
     <span class="flex items-center gap-2">
       <span class="text-white text-2xl font-bold py-4">スタディサンプリング</span>
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style='color: white;'>
@@ -49,7 +67,7 @@
       data-action="keydown.a@window->sound#play keydown.a@window->count#push keydown.b@window->sound#play keydown.b@window->count#push"
     >
 
-      <section class="bg-white px-4 pt-[18px] pb-[18px] flex flex-col gap-3">
+      <section class="bg-white px-4 pt-[5px] pb-[5px] flex flex-col gap-3">
         <h1 class="text-[#12377E] text-[42px] font-bold leading-[1.12]">正解音で、<br>勉強のリズムを<br>つくろう</h1>
         <p class="text-[#496182] text-lg leading-relaxed">問題が解けたらボタンを押すだけ…</p>
 
@@ -101,7 +119,7 @@
           data-action="click->sound#play click->count#push"
           data-count-target="button"
           class="w-[236px] h-[236px] rounded-full bg-[#18A8E4] text-white text-[58px] font-bold
-                       active:scale-95 transition-all select-none shadow-lg"
+                       btn-main select-none shadow-lg"
         >
           正解！
         </button>

@@ -8,7 +8,7 @@ export class StartupController extends Controller {
 
     // focus は await より前に呼ぶ（iOS はユーザージェスチャーの同期コンテキスト内でないと無視する）
     const keyCapture = this.element.querySelector('[data-count-target="keyCapture"]');
-    if (keyCapture) keyCapture.focus();
+    if (keyCapture) keyCapture.focus({ preventScroll: true });
 
     const wl = this.application.getControllerForElementAndIdentifier(this.element, 'wakelock');
     if (wl) await wl._request();

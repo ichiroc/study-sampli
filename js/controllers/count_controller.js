@@ -55,7 +55,7 @@ export class CountController extends Controller {
     this.render();
     this._bindKeyCapture = () => {
       if (!this.streakSubTarget.querySelector('input')) {
-        this.keyCaptureTarget.focus();
+        this.keyCaptureTarget.focus({ preventScroll: true });
       }
     };
     document.addEventListener('touchend', this._bindKeyCapture, { passive: true });
@@ -66,6 +66,7 @@ export class CountController extends Controller {
   }
 
   push() {
+    if ('vibrate' in navigator) navigator.vibrate(12);
     const data = this.#readStorage();
     const today = this.#getToday();
     const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
@@ -114,7 +115,7 @@ export class CountController extends Controller {
         this.#writeGoal(val);
       }
       this.render();
-      this.keyCaptureTarget.focus();
+      this.keyCaptureTarget.focus({ preventScroll: true });
     };
 
     input.addEventListener('blur', commit, { once: true });
