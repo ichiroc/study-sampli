@@ -27,11 +27,11 @@
     <span class="text-[#CFE1FF] text-xs font-semibold">学習サポート</span>
   </header>
   <div class="flex-1 flex justify-center">
-  <div
-    class="w-full max-w-[390px] flex flex-col"
-    data-controller="count sound wakelock"
-    data-action="keydown.enter@window->sound#play keydown.enter@window->count#push"
-  >
+    <div
+      class="w-full max-w-[390px] flex flex-col"
+      data-controller="count sound wakelock"
+      data-action="keydown.enter@window->sound#play keydown.enter@window->count#push keydown.a@window->sound#play keydown.a@window->count#push keydown.b@window->sound#play keydown.b@window->count#push"
+    >
 
     <!-- ② ヒーローセクション -->
     <section class="bg-white px-4 pt-[18px] pb-[18px] flex flex-col gap-3">
