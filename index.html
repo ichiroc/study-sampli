@@ -33,315 +33,315 @@
       data-action="keydown.enter@window->sound#play keydown.enter@window->count#push keydown.a@window->sound#play keydown.a@window->count#push keydown.b@window->sound#play keydown.b@window->count#push"
     >
 
-    <!-- ② ヒーローセクション -->
-    <section class="bg-white px-4 pt-[18px] pb-[18px] flex flex-col gap-3">
-      <h1 class="text-[#12377E] text-[42px] font-bold leading-[1.12]">正解音で、<br>勉強のリズムを<br>つくろう</h1>
-      <p class="text-[#496182] text-lg leading-relaxed">問題が解けたらボタンを押すだけ…</p>
+      <!-- ② ヒーローセクション -->
+      <section class="bg-white px-4 pt-[18px] pb-[18px] flex flex-col gap-3">
+        <h1 class="text-[#12377E] text-[42px] font-bold leading-[1.12]">正解音で、<br>勉強のリズムを<br>つくろう</h1>
+        <p class="text-[#496182] text-lg leading-relaxed">問題が解けたらボタンを押すだけ…</p>
 
-      <!-- フォンモック -->
-      <div class="bg-[#0E3388] rounded-2xl h-[210px] flex items-center justify-center">
+        <!-- フォンモック -->
+        <div class="bg-[#0E3388] rounded-2xl h-[210px] flex items-center justify-center">
 
-        <!-- 白カード -->
-        <div class="bg-white w-[300px] rounded-xl p-[10px] flex flex-col gap-2">
-          <!-- 上バー: 今日の正解 -->
-          <div class="flex items-center justify-between h-[28px]">
-            <span class="text-[#12377E] text-sm font-semibold">今日の正解</span>
-            <span
-              class="hidden bg-amber-200 text-red-500 text-xs font-bold px-2 py-0.5 rounded-full"
-              data-count-target="topBadge"
-            >🔥前回超え！</span>
-          </div>
-          <!-- 行1: 正解カウント + 前回 + 数値 -->
-          <div class="bg-[#DCEEFF] rounded-lg h-[38px] flex items-center justify-between px-3">
-            <span>
-              <span class="text-[#12377E] text-sm font-medium">正解カウント</span>
-              <span class="text-[#496182] text-xs">前回 <span data-count-target="prevCount">0</span></span>
-            </span>
-            <span class="flex items-center items-end gap-2">
+          <!-- 白カード -->
+          <div class="bg-white w-[300px] rounded-xl p-[10px] flex flex-col gap-2">
+            <!-- 上バー: 今日の正解 -->
+            <div class="flex items-center justify-between h-[28px]">
+              <span class="text-[#12377E] text-sm font-semibold">今日の正解</span>
               <span
-                class="text-[#D62FC6] text-xl font-bold"
-                data-count-target="count"
-              >0</span>
-            </span>
-          </div>
-          <!-- 行3: 連続N日 / 目標まであとN問 + やる気UP badge -->
-          <div class="bg-[#F7FAFF] border border-[#D7DEEA] rounded-lg h-[38px] flex items-center justify-between px-3">
-            <div class="flex items-center gap-2">
-              <span
-                class="text-[#12377E] text-sm font-medium"
-                data-count-target="streakDays"
-              >連続 0日</span>
-              <span
-                class="text-[#496182] text-xs"
-                data-count-target="streakSub"
-              >目標まであと20問</span>
+                class="hidden bg-amber-200 text-red-500 text-xs font-bold px-2 py-0.5 rounded-full"
+                data-count-target="topBadge"
+              >🔥前回超え！</span>
             </div>
-            <span class="text-[#11409F] text-xs font-semibold">やる気UP</span>
+            <!-- 行1: 正解カウント + 前回 + 数値 -->
+            <div class="bg-[#DCEEFF] rounded-lg h-[38px] flex items-center justify-between px-3">
+              <span>
+                <span class="text-[#12377E] text-sm font-medium">正解カウント</span>
+                <span class="text-[#496182] text-xs">前回 <span data-count-target="prevCount">0</span></span>
+              </span>
+              <span class="flex items-center items-end gap-2">
+                <span
+                  class="text-[#D62FC6] text-xl font-bold"
+                  data-count-target="count"
+                >0</span>
+              </span>
+            </div>
+            <!-- 行3: 連続N日 / 目標まであとN問 + やる気UP badge -->
+            <div class="bg-[#F7FAFF] border border-[#D7DEEA] rounded-lg h-[38px] flex items-center justify-between px-3">
+              <div class="flex items-center gap-2">
+                <span
+                  class="text-[#12377E] text-sm font-medium"
+                  data-count-target="streakDays"
+                >連続 0日</span>
+                <span
+                  class="text-[#496182] text-xs"
+                  data-count-target="streakSub"
+                >目標まであと20問</span>
+              </div>
+              <span class="text-[#11409F] text-xs font-semibold">やる気UP</span>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ③ ツールセクション -->
-    <section class="bg-[#EAF4FF] flex-1 flex items-center justify-center relative" style="min-height: 310px;">
-      <button
-        data-action="click->sound#play click->count#push"
-        data-count-target="button"
-        class="w-[236px] h-[236px] rounded-full bg-[#18A8E4] text-white text-[58px] font-bold
-               active:scale-95 transition-all select-none shadow-lg"
-      >
-        正解！
-      </button>
-      <div class="flex justify-center color text-gray-500 text-sm absolute bottom-2">
-        <div>※ジョークアプリです</div>
-      </div>
-    </section>
-    <!-- Wake Lock トグル -->
-    <div class="bg-white border-t border-[#E5EBF5] px-6 py-3 flex flex-col gap-1">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2 text-[#496182]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
-          </svg>
-          <span class="text-sm font-medium">スリープ防止</span>
-        </div>
+      <!-- ③ ツールセクション -->
+      <section class="bg-[#EAF4FF] flex-1 flex items-center justify-center relative" style="min-height: 310px;">
         <button
-          data-action="click->wakelock#toggle"
-          data-wakelock-target="toggle"
-          role="switch"
-          aria-checked="false"
-          class="relative inline-flex h-[28px] w-[52px] flex-shrink-0 items-center rounded-full bg-gray-300 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#18A8E4]"
+          data-action="click->sound#play click->count#push"
+          data-count-target="button"
+          class="w-[236px] h-[236px] rounded-full bg-[#18A8E4] text-white text-[58px] font-bold
+                       active:scale-95 transition-all select-none shadow-lg"
         >
-          <span
-            data-wakelock-target="knob"
-            class="inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-200 translate-x-1"
-          ></span>
+          正解！
+        </button>
+        <div class="flex justify-center color text-gray-500 text-sm absolute bottom-2">
+          <div>※ジョークアプリです</div>
+        </div>
+      </section>
+      <!-- Wake Lock トグル -->
+      <div class="bg-white border-t border-[#E5EBF5] px-6 py-3 flex flex-col gap-1">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 text-[#496182]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+            </svg>
+            <span class="text-sm font-medium">スリープ防止</span>
+          </div>
+          <button
+            data-action="click->wakelock#toggle"
+            data-wakelock-target="toggle"
+            role="switch"
+            aria-checked="false"
+            class="relative inline-flex h-[28px] w-[52px] flex-shrink-0 items-center rounded-full bg-gray-300 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#18A8E4]"
+          >
+            <span
+              data-wakelock-target="knob"
+              class="inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-200 translate-x-1"
+            ></span>
+          </button>
+        </div>
+        <p data-wakelock-target="errorMsg" class="hidden text-xs text-amber-600 leading-snug"></p>
+      </div>
+
+      <!-- Wake Lock 再開バナー（失効時に表示） -->
+      <div
+        data-wakelock-target="banner"
+        class="hidden fixed inset-x-0 bottom-0 bg-amber-500 text-white px-4 flex items-center justify-between shadow-lg z-50"
+        style="padding-top: 12px; padding-bottom: max(12px, env(safe-area-inset-bottom));"
+      >
+        <span class="text-sm font-medium">スリープ防止が解除されました</span>
+        <button
+          data-action="click->wakelock#resume"
+          class="bg-white text-amber-600 text-xs font-bold px-3 py-1.5 rounded-full ml-3 whitespace-nowrap flex-shrink-0"
+        >
+          再開する
         </button>
       </div>
-      <p data-wakelock-target="errorMsg" class="hidden text-xs text-amber-600 leading-snug"></p>
     </div>
-
-    <!-- Wake Lock 再開バナー（失効時に表示） -->
-    <div
-      data-wakelock-target="banner"
-      class="hidden fixed inset-x-0 bottom-0 bg-amber-500 text-white px-4 flex items-center justify-between shadow-lg z-50"
-      style="padding-top: 12px; padding-bottom: max(12px, env(safe-area-inset-bottom));"
-    >
-      <span class="text-sm font-medium">スリープ防止が解除されました</span>
-      <button
-        data-action="click->wakelock#resume"
-        class="bg-white text-amber-600 text-xs font-bold px-3 py-1.5 rounded-full ml-3 whitespace-nowrap flex-shrink-0"
-      >
-        再開する
-      </button>
-    </div>
-  </div>
   </div>
 
   <script type="module">
-    import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js";
+   import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js";
 
-    const STORAGE_KEY = "studySampli";
-    const DAILY_GOAL = 20;
+   const STORAGE_KEY = "studySampli";
+   const DAILY_GOAL = 20;
 
-    function getToday() {
-      return new Date().toISOString().slice(0, 10);
-    }
+   function getToday() {
+     return new Date().toISOString().slice(0, 10);
+   }
 
-    function readStorage() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      } catch {
-        return {};
-      }
-    }
+   function readStorage() {
+     try {
+       return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+     } catch {
+       return {};
+     }
+   }
 
-    function writeStorage(data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
+   function writeStorage(data) {
+     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+   }
 
-    function calcStreak(data, today) {
-      const todayCount = data[today] || 0;
-      let streak = 0;
+   function calcStreak(data, today) {
+     const todayCount = data[today] || 0;
+     let streak = 0;
 
-      // 今日が0件なら昨日から遡る
-      const startOffset = todayCount > 0 ? 0 : 1;
+     // 今日が0件なら昨日から遡る
+     const startOffset = todayCount > 0 ? 0 : 1;
 
-      for (let i = startOffset; i < 365; i++) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        const key = d.toISOString().slice(0, 10);
-        if ((data[key] || 0) > 0) {
-          streak++;
-        } else {
-          break;
-        }
-      }
+     for (let i = startOffset; i < 365; i++) {
+       const d = new Date();
+       d.setDate(d.getDate() - i);
+       const key = d.toISOString().slice(0, 10);
+       if ((data[key] || 0) > 0) {
+         streak++;
+       } else {
+         break;
+       }
+     }
 
-      return streak;
-    }
+     return streak;
+   }
 
-    class CountController extends Controller {
-      static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "button"];
+   class CountController extends Controller {
+     static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "button"];
 
-      connect() {
-        this.render();
-      }
+     connect() {
+       this.render();
+     }
 
-      push() {
-        const data = readStorage();
-        const today = getToday();
-        const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
-        const prevCount = prevKey ? data[prevKey] : 0;
-        data[today] = (data[today] || 0) + 1;
-        writeStorage(data);
-        if (prevCount > 0 && data[today] === prevCount + 1) {
-          confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
-        }
-        this.render();
-      }
+     push() {
+       const data = readStorage();
+       const today = getToday();
+       const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
+       const prevCount = prevKey ? data[prevKey] : 0;
+       data[today] = (data[today] || 0) + 1;
+       writeStorage(data);
+       if (prevCount > 0 && data[today] === prevCount + 1) {
+         confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+       }
+       this.render();
+     }
 
-      render() {
-        const data = readStorage();
-        const today = getToday();
-        const todayCount = data[today] || 0;
-        const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
-        const prevCount = prevKey ? data[prevKey] : 0;
-        const streak = calcStreak(data, today);
-        const remaining = Math.max(0, DAILY_GOAL - todayCount);
+     render() {
+       const data = readStorage();
+       const today = getToday();
+       const todayCount = data[today] || 0;
+       const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
+       const prevCount = prevKey ? data[prevKey] : 0;
+       const streak = calcStreak(data, today);
+       const remaining = Math.max(0, DAILY_GOAL - todayCount);
 
-        this.countTarget.textContent = todayCount;
-        this.prevCountTarget.textContent = prevCount;
-        this.streakDaysTarget.textContent = `連続 ${streak}日`;
-        this.streakSubTarget.textContent =
-          remaining === 0 ? "今日の目標達成！" : `目標まであと${remaining}問`;
-        const exceeded = prevCount > 0 && todayCount > prevCount;
-        this.topBadgeTarget.classList.toggle("hidden", !exceeded);
-        this.buttonTarget.classList.toggle("bg-[#18A8E4]", !exceeded);
-        this.buttonTarget.classList.toggle("bg-red-500", exceeded);
-      }
-    }
+       this.countTarget.textContent = todayCount;
+       this.prevCountTarget.textContent = prevCount;
+       this.streakDaysTarget.textContent = `連続 ${streak}日`;
+       this.streakSubTarget.textContent =
+         remaining === 0 ? "今日の目標達成！" : `目標まであと${remaining}問`;
+       const exceeded = prevCount > 0 && todayCount > prevCount;
+       this.topBadgeTarget.classList.toggle("hidden", !exceeded);
+       this.buttonTarget.classList.toggle("bg-[#18A8E4]", !exceeded);
+       this.buttonTarget.classList.toggle("bg-red-500", exceeded);
+     }
+   }
 
-    class SoundController extends Controller {
-      connect() {
-        this.audio = new Audio('./correct.mp3');
-      }
+   class SoundController extends Controller {
+     connect() {
+       this.audio = new Audio('./correct.mp3');
+     }
 
-      play() {
-        this.audio.currentTime = 0;
-        this.audio.play();
-      }
-    }
+     play() {
+       this.audio.currentTime = 0;
+       this.audio.play();
+     }
+   }
 
-    const application = Application.start();
-    class WakeLockController extends Controller {
-      static targets = ["toggle", "knob", "banner", "errorMsg"];
+   const application = Application.start();
+   class WakeLockController extends Controller {
+     static targets = ["toggle", "knob", "banner", "errorMsg"];
 
-      connect() {
-        this.wakeLock = null;
-        this.enabled = false;
-        this._handleVisibilityChange = this._onVisibilityChange.bind(this);
-        document.addEventListener('visibilitychange', this._handleVisibilityChange);
-      }
+     connect() {
+       this.wakeLock = null;
+       this.enabled = false;
+       this._handleVisibilityChange = this._onVisibilityChange.bind(this);
+       document.addEventListener('visibilitychange', this._handleVisibilityChange);
+     }
 
-      disconnect() {
-        document.removeEventListener('visibilitychange', this._handleVisibilityChange);
-        if (this.wakeLock) {
-          this.wakeLock.release().catch(() => {});
-        }
-      }
+     disconnect() {
+       document.removeEventListener('visibilitychange', this._handleVisibilityChange);
+       if (this.wakeLock) {
+         this.wakeLock.release().catch(() => {});
+       }
+     }
 
-      async toggle() {
-        if (this.enabled) {
-          await this._release();
-        } else {
-          await this._request();
-        }
-      }
+     async toggle() {
+       if (this.enabled) {
+         await this._release();
+       } else {
+         await this._request();
+       }
+     }
 
-      async resume() {
-        this.bannerTarget.classList.add('hidden');
-        await this._request();
-      }
+     async resume() {
+       this.bannerTarget.classList.add('hidden');
+       await this._request();
+     }
 
-      async _request() {
-        if (!('wakeLock' in navigator)) {
-          this._showError('お使いの環境ではスリープ防止機能を利用できません');
-          return;
-        }
-        try {
-          this.wakeLock = await navigator.wakeLock.request('screen');
-          this.enabled = true;
-          this.errorMsgTarget.classList.add('hidden');
-          this.wakeLock.addEventListener('release', () => {
-            this.wakeLock = null;
-            if (this.enabled) {
-              this._showBanner();
-            }
-            this._updateUI();
-          });
-          this._updateUI();
-        } catch (err) {
-          this.enabled = false;
-          let msg = 'スリープ防止の取得に失敗しました';
-          if (err.name === 'NotAllowedError') {
-            msg = '低電力モードをOFFにするか、画面の自動ロック設定をご確認ください';
-          }
-          this._showError(msg);
-          this._updateUI();
-        }
-      }
+     async _request() {
+       if (!('wakeLock' in navigator)) {
+         this._showError('お使いの環境ではスリープ防止機能を利用できません');
+         return;
+       }
+       try {
+         this.wakeLock = await navigator.wakeLock.request('screen');
+         this.enabled = true;
+         this.errorMsgTarget.classList.add('hidden');
+         this.wakeLock.addEventListener('release', () => {
+           this.wakeLock = null;
+           if (this.enabled) {
+             this._showBanner();
+           }
+           this._updateUI();
+         });
+         this._updateUI();
+       } catch (err) {
+         this.enabled = false;
+         let msg = 'スリープ防止の取得に失敗しました';
+         if (err.name === 'NotAllowedError') {
+           msg = '低電力モードをOFFにするか、画面の自動ロック設定をご確認ください';
+         }
+         this._showError(msg);
+         this._updateUI();
+       }
+     }
 
-      async _release() {
-        this.enabled = false;
-        if (this.wakeLock) {
-          await this.wakeLock.release().catch(() => {});
-          this.wakeLock = null;
-        }
-        this.bannerTarget.classList.add('hidden');
-        this.errorMsgTarget.classList.add('hidden');
-        this._updateUI();
-      }
+     async _release() {
+       this.enabled = false;
+       if (this.wakeLock) {
+         await this.wakeLock.release().catch(() => {});
+         this.wakeLock = null;
+       }
+       this.bannerTarget.classList.add('hidden');
+       this.errorMsgTarget.classList.add('hidden');
+       this._updateUI();
+     }
 
-      _onVisibilityChange() {
-        if (document.visibilityState === 'visible' && this.enabled && !this.wakeLock) {
-          this._showBanner();
-        }
-      }
+     _onVisibilityChange() {
+       if (document.visibilityState === 'visible' && this.enabled && !this.wakeLock) {
+         this._showBanner();
+       }
+     }
 
-      _showBanner() {
-        this.bannerTarget.classList.remove('hidden');
-      }
+     _showBanner() {
+       this.bannerTarget.classList.remove('hidden');
+     }
 
-      _showError(msg) {
-        this.errorMsgTarget.textContent = msg;
-        this.errorMsgTarget.classList.remove('hidden');
-      }
+     _showError(msg) {
+       this.errorMsgTarget.textContent = msg;
+       this.errorMsgTarget.classList.remove('hidden');
+     }
 
-      _updateUI() {
-        const isActive = this.enabled && this.wakeLock !== null;
-        this.toggleTarget.setAttribute('aria-checked', String(isActive));
-        if (isActive) {
-          this.toggleTarget.classList.remove('bg-gray-300');
-          this.toggleTarget.classList.add('bg-[#18A8E4]');
-          this.knobTarget.classList.remove('translate-x-1');
-          this.knobTarget.classList.add('translate-x-[28px]');
-        } else {
-          this.toggleTarget.classList.remove('bg-[#18A8E4]');
-          this.toggleTarget.classList.add('bg-gray-300');
-          this.knobTarget.classList.remove('translate-x-[28px]');
-          this.knobTarget.classList.add('translate-x-1');
-        }
-      }
-    }
+     _updateUI() {
+       const isActive = this.enabled && this.wakeLock !== null;
+       this.toggleTarget.setAttribute('aria-checked', String(isActive));
+       if (isActive) {
+         this.toggleTarget.classList.remove('bg-gray-300');
+         this.toggleTarget.classList.add('bg-[#18A8E4]');
+         this.knobTarget.classList.remove('translate-x-1');
+         this.knobTarget.classList.add('translate-x-[28px]');
+       } else {
+         this.toggleTarget.classList.remove('bg-[#18A8E4]');
+         this.toggleTarget.classList.add('bg-gray-300');
+         this.knobTarget.classList.remove('translate-x-[28px]');
+         this.knobTarget.classList.add('translate-x-1');
+       }
+     }
+   }
 
-    application.register("count", CountController);
-    application.register("sound", SoundController);
-    application.register("wakelock", WakeLockController);
+   application.register("count", CountController);
+   application.register("sound", SoundController);
+   application.register("wakelock", WakeLockController);
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js');
-    }
-</script>
+   if ('serviceWorker' in navigator) {
+     navigator.serviceWorker.register('./sw.js');
+   }
+  </script>
 </body>
 </html>
