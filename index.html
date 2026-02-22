@@ -41,10 +41,16 @@
           <div class="bg-white w-[300px] rounded-xl p-[10px] flex flex-col gap-2">
             <div class="flex items-center justify-between h-[28px]">
               <span class="text-[#12377E] text-sm font-semibold">今日の正解</span>
-              <span
-                class="hidden bg-amber-200 text-red-500 text-xs font-bold px-2 py-0.5 rounded-full"
-                data-count-target="topBadge"
-              >🔥前回超え！</span>
+              <div class="flex items-center gap-1">
+                <span
+                  class="hidden bg-amber-200 text-red-500 text-xs font-bold px-2 py-0.5 rounded-full"
+                  data-count-target="topBadge"
+                >🔥前回超え！</span>
+                <span
+                  class="hidden bg-green-100 text-green-600 text-xs font-bold px-2 py-0.5 rounded-full"
+                  data-count-target="goalBadge"
+                >🎊目標達成！</span>
+              </div>
             </div>
             <div class="bg-[#DCEEFF] rounded-lg h-[38px] flex items-center justify-between px-3">
               <span>
@@ -130,7 +136,7 @@
    import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js";
 
    class CountController extends Controller {
-     static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "button"];
+     static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "goalBadge", "button"];
      static STORAGE_KEY = "studySampli";
      static GOAL_KEY = "studySampli_goal";
      static DEFAULT_GOAL = 20;
@@ -194,6 +200,9 @@
        if (prevCount > 0 && data[today] === prevCount + 1) {
          confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
        }
+       if (data[today] === this.#readGoal()) {
+         confetti({ particleCount: 200, spread: 120, origin: { y: 0.5 }, colors: ['#FFD700', '#FF69B4', '#00CED1', '#7CFC00', '#FF6347'] });
+       }
        this.render();
      }
 
@@ -255,7 +264,9 @@
        this.streakSubTarget.textContent =
          remaining === 0 ? "今日の目標達成！" : `目標まであと${remaining}問`;
        const exceeded = prevCount > 0 && todayCount > prevCount;
+       const goalReached = remaining === 0;
        this.topBadgeTarget.classList.toggle("hidden", !exceeded);
+       this.goalBadgeTarget.classList.toggle("hidden", !goalReached);
        this.buttonTarget.classList.toggle("bg-[#18A8E4]", !exceeded);
        this.buttonTarget.classList.toggle("bg-red-500", exceeded);
      }
