@@ -131,59 +131,58 @@
   <script type="module">
    import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js";
 
-   const STORAGE_KEY = "studySampli";
-   const DAILY_GOAL = 20;
+   class CountController extends Controller {
+     static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "button"];
+     static STORAGE_KEY = "studySampli";
+     static DAILY_GOAL = 20;
 
-   function getToday() {
-     return new Date().toISOString().slice(0, 10);
-   }
-
-   function readStorage() {
-     try {
-       return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-     } catch {
-       return {};
+     #getToday() {
+       return new Date().toISOString().slice(0, 10);
      }
-   }
 
-   function writeStorage(data) {
-     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-   }
-
-   function calcStreak(data, today) {
-     const todayCount = data[today] || 0;
-     let streak = 0;
-
-     const startOffset = todayCount > 0 ? 0 : 1;
-
-     for (let i = startOffset; i < 365; i++) {
-       const d = new Date();
-       d.setDate(d.getDate() - i);
-       const key = d.toISOString().slice(0, 10);
-       if ((data[key] || 0) > 0) {
-         streak++;
-       } else {
-         break;
+     #readStorage() {
+       try {
+         return JSON.parse(localStorage.getItem(CountController.STORAGE_KEY) || "{}");
+       } catch {
+         return {};
        }
      }
 
-     return streak;
-   }
+     #writeStorage(data) {
+       localStorage.setItem(CountController.STORAGE_KEY, JSON.stringify(data));
+     }
 
-   class CountController extends Controller {
-     static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "button"];
+     #calcStreak(data, today) {
+       const todayCount = data[today] || 0;
+       let streak = 0;
+
+       const startOffset = todayCount > 0 ? 0 : 1;
+
+       for (let i = startOffset; i < 365; i++) {
+         const d = new Date();
+         d.setDate(d.getDate() - i);
+         const key = d.toISOString().slice(0, 10);
+         if ((data[key] || 0) > 0) {
+           streak++;
+         } else {
+           break;
+         }
+       }
+
+       return streak;
+     }
 
      connect() {
        this.render();
      }
 
      push() {
-       const data = readStorage();
-       const today = getToday();
+       const data = this.#readStorage();
+       const today = this.#getToday();
        const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
        const prevCount = prevKey ? data[prevKey] : 0;
        data[today] = (data[today] || 0) + 1;
-       writeStorage(data);
+       this.#writeStorage(data);
        if (prevCount > 0 && data[today] === prevCount + 1) {
          confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
        }
@@ -191,13 +190,13 @@
      }
 
      render() {
-       const data = readStorage();
-       const today = getToday();
+       const data = this.#readStorage();
+       const today = this.#getToday();
        const todayCount = data[today] || 0;
        const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
        const prevCount = prevKey ? data[prevKey] : 0;
-       const streak = calcStreak(data, today);
-       const remaining = Math.max(0, DAILY_GOAL - todayCount);
+       const streak = this.#calcStreak(data, today);
+       const remaining = Math.max(0, CountController.DAILY_GOAL - todayCount);
 
        this.countTarget.textContent = todayCount;
        this.prevCountTarget.textContent = prevCount;
