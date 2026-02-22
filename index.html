@@ -132,7 +132,7 @@
       <input
         type="text"
         inputmode="none"
-        autocomplete="off"
+        readonly
         aria-hidden="true"
         tabindex="-1"
         data-count-target="keyCapture"
@@ -197,8 +197,6 @@
 
      connect() {
        this.render();
-       this._clearCapture = () => { this.keyCaptureTarget.value = ''; };
-       this.keyCaptureTarget.addEventListener('input', this._clearCapture);
        this._bindKeyCapture = () => {
          if (!this.streakSubTarget.querySelector('input')) {
            this.keyCaptureTarget.focus();
@@ -208,7 +206,6 @@
      }
 
      disconnect() {
-       this.keyCaptureTarget.removeEventListener('input', this._clearCapture);
        document.removeEventListener('touchend', this._bindKeyCapture);
      }
 
@@ -298,15 +295,6 @@
    class SoundController extends Controller {
      connect() {
        this.audio = new Audio('./correct.mp3');
-       this._unlockAudio = () => {
-         this.audio.play().then(() => { this.audio.pause(); this.audio.currentTime = 0; }).catch(() => {});
-         document.removeEventListener('touchend', this._unlockAudio);
-       };
-       document.addEventListener('touchend', this._unlockAudio, { passive: true });
-     }
-
-     disconnect() {
-       document.removeEventListener('touchend', this._unlockAudio);
      }
 
      play() {
