@@ -13,6 +13,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="サンプリ">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body class="bg-[#F4F7FC] flex flex-col h-dvh">
   <!-- ① ヘッダー -->
@@ -43,8 +44,12 @@
         <!-- 白カード -->
         <div class="bg-white w-[300px] rounded-xl p-[10px] flex flex-col gap-2">
           <!-- 上バー: 今日の正解 -->
-          <div class="flex items-center h-[28px]">
+          <div class="flex items-center justify-between h-[28px]">
             <span class="text-[#12377E] text-sm font-semibold">今日の正解</span>
+            <span
+              class="hidden bg-amber-200 text-red-500 text-xs font-bold px-2 py-0.5 rounded-full"
+              data-count-target="topBadge"
+            >🔥前回超え！</span>
           </div>
           <!-- 行1: 正解カウント + 前回 + 数値 -->
           <div class="bg-[#DCEEFF] rounded-lg h-[38px] flex items-center justify-between px-3">
@@ -81,8 +86,9 @@
     <section class="bg-[#EAF4FF] flex-1 flex items-center justify-center relative" style="min-height: 310px;">
       <button
         data-action="click->sound#play click->count#push"
+        data-count-target="button"
         class="w-[236px] h-[236px] rounded-full bg-[#18A8E4] text-white text-[58px] font-bold
-               active:scale-95 transition-transform select-none shadow-lg"
+               active:scale-95 transition-all select-none shadow-lg"
       >
         正解！
       </button>
@@ -176,7 +182,7 @@
     }
 
     class CountController extends Controller {
-      static targets = ["count", "prevCount", "streakDays", "streakSub"];
+      static targets = ["count", "prevCount", "streakDays", "streakSub", "topBadge", "button"];
 
       connect() {
         this.render();
@@ -185,8 +191,13 @@
       push() {
         const data = readStorage();
         const today = getToday();
+        const prevKey = Object.keys(data).filter(k => k < today).sort().at(-1);
+        const prevCount = prevKey ? data[prevKey] : 0;
         data[today] = (data[today] || 0) + 1;
         writeStorage(data);
+        if (prevCount > 0 && data[today] === prevCount + 1) {
+          confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+        }
         this.render();
       }
 
@@ -204,6 +215,10 @@
         this.streakDaysTarget.textContent = `連続 ${streak}日`;
         this.streakSubTarget.textContent =
           remaining === 0 ? "今日の目標達成！" : `目標まであと${remaining}問`;
+        const exceeded = prevCount > 0 && todayCount > prevCount;
+        this.topBadgeTarget.classList.toggle("hidden", !exceeded);
+        this.buttonTarget.classList.toggle("bg-[#18A8E4]", !exceeded);
+        this.buttonTarget.classList.toggle("bg-red-500", exceeded);
       }
     }
 
