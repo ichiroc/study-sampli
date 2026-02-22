@@ -16,7 +16,6 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body class="bg-[#F4F7FC] flex flex-col h-dvh">
-  <!-- ① ヘッダー -->
   <header class="bg-[#11409F] flex items-center justify-between px-4" style="height: calc(74px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top);">
     <span class="flex items-center gap-2">
       <span class="text-white text-2xl font-bold">スタディサンプリング</span>
@@ -33,17 +32,13 @@
       data-action="keydown.enter@window->sound#play keydown.enter@window->count#push keydown.a@window->sound#play keydown.a@window->count#push keydown.b@window->sound#play keydown.b@window->count#push"
     >
 
-      <!-- ② ヒーローセクション -->
       <section class="bg-white px-4 pt-[18px] pb-[18px] flex flex-col gap-3">
         <h1 class="text-[#12377E] text-[42px] font-bold leading-[1.12]">正解音で、<br>勉強のリズムを<br>つくろう</h1>
         <p class="text-[#496182] text-lg leading-relaxed">問題が解けたらボタンを押すだけ…</p>
 
-        <!-- フォンモック -->
         <div class="bg-[#0E3388] rounded-2xl h-[210px] flex items-center justify-center">
 
-          <!-- 白カード -->
           <div class="bg-white w-[300px] rounded-xl p-[10px] flex flex-col gap-2">
-            <!-- 上バー: 今日の正解 -->
             <div class="flex items-center justify-between h-[28px]">
               <span class="text-[#12377E] text-sm font-semibold">今日の正解</span>
               <span
@@ -51,7 +46,6 @@
                 data-count-target="topBadge"
               >🔥前回超え！</span>
             </div>
-            <!-- 行1: 正解カウント + 前回 + 数値 -->
             <div class="bg-[#DCEEFF] rounded-lg h-[38px] flex items-center justify-between px-3">
               <span>
                 <span class="text-[#12377E] text-sm font-medium">正解カウント</span>
@@ -64,7 +58,6 @@
                 >0</span>
               </span>
             </div>
-            <!-- 行3: 連続N日 / 目標まであとN問 + やる気UP badge -->
             <div class="bg-[#F7FAFF] border border-[#D7DEEA] rounded-lg h-[38px] flex items-center justify-between px-3">
               <div class="flex items-center gap-2">
                 <span
@@ -82,7 +75,6 @@
         </div>
       </section>
 
-      <!-- ③ ツールセクション -->
       <section class="bg-[#EAF4FF] flex-1 flex items-center justify-center relative" style="min-height: 310px;">
         <button
           data-action="click->sound#play click->count#push"
@@ -96,7 +88,6 @@
           <div>※ジョークアプリです</div>
         </div>
       </section>
-      <!-- Wake Lock トグル -->
       <div class="bg-white border-t border-[#E5EBF5] px-6 py-3 flex flex-col gap-1">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2 text-[#496182]">
@@ -121,7 +112,6 @@
         <p data-wakelock-target="errorMsg" class="hidden text-xs text-amber-600 leading-snug"></p>
       </div>
 
-      <!-- Wake Lock 再開バナー（失効時に表示） -->
       <div
         data-wakelock-target="banner"
         class="hidden fixed inset-x-0 bottom-0 bg-amber-500 text-white px-4 flex items-center justify-between shadow-lg z-50"
@@ -164,7 +154,6 @@
      const todayCount = data[today] || 0;
      let streak = 0;
 
-     // 今日が0件なら昨日から遡る
      const startOffset = todayCount > 0 ? 0 : 1;
 
      for (let i = startOffset; i < 365; i++) {
