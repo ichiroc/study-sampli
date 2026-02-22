@@ -14,7 +14,7 @@
   <meta name="apple-mobile-web-app-title" content="サンプリ">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#F4F7FC] flex flex-col">
+<body class="bg-[#F4F7FC] flex flex-col h-dvh">
   <!-- ① ヘッダー -->
   <header class="bg-[#11409F] flex items-center justify-between px-4" style="height: calc(74px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top);">
     <span class="flex items-center gap-2">
@@ -40,6 +40,7 @@
 
       <!-- フォンモック -->
       <div class="bg-[#0E3388] rounded-2xl h-[170px] flex items-center justify-center">
+
         <!-- 白カード -->
         <div class="bg-white w-[300px] rounded-xl p-[10px] flex flex-col gap-2">
           <!-- 上バー: 今日の正解 + +N badge -->
@@ -77,7 +78,7 @@
     </section>
 
     <!-- ③ ツールセクション -->
-    <section class="bg-[#EAF4FF] flex-1 flex items-center justify-center" style="min-height: 360px;">
+    <section class="bg-[#EAF4FF] flex-1 flex items-center justify-center relative" style="min-height: 320px;">
       <button
         data-action="click->sound#play click->count#push"
         class="w-[236px] h-[236px] rounded-full bg-[#18A8E4] text-white text-[58px] font-bold
@@ -85,6 +86,9 @@
       >
         正解！
       </button>
+      <div class="flex justify-center color text-gray-500 text-sm absolute bottom-2">
+        <div>※個人が作ったジョークアプリです</div>
+      </div>
     </section>
     <!-- Wake Lock トグル -->
     <div class="bg-white border-t border-[#E5EBF5] px-6 py-3 flex flex-col gap-1">
@@ -124,10 +128,6 @@
       >
         再開する
       </button>
-    </div>
-
-    <div class="flex justify-center color text-gray-500 text-sm">
-      <div>これは個人が作ったジョークアプリです</div>
     </div>
   </div>
   </div>
